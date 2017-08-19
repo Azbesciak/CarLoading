@@ -2,8 +2,6 @@ package com.witkups.carloading;
 
 import com.witkups.carloading.entity.Constraints;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -23,7 +21,7 @@ public class ConstraintsLoader {
         try (InputStream input = Constraints.class.getClassLoader().getResourceAsStream(constraintsFile)) {
             prop.load(input);
         } catch (Exception e) {
-            System.err.println("no property file was found, used default");
+            System.err.println("No property file was found, used default");
         }
 
         return buildConstraints();

@@ -1,19 +1,19 @@
 package com.witkups.carloading.parser.output;
 
-import com.witkups.carloading.InputSection;
+import com.witkups.carloading.Section;
 import com.witkups.carloading.entity.Purpose;
-import com.witkups.carloading.parser.ObjectParser;
+import com.witkups.carloading.parser.SectionParser;
 
 import java.util.Optional;
 
 import static java.lang.Integer.*;
 
-public class PurposeParser extends ObjectParser<Purpose> {
+public class PurposeParser extends SectionParser<Purpose> {
 
     private static final int MAX_DISTANCE_INDEX = 0;
     private static final int OCCUPIED_PLACE_INDEX = 1;
 
-    public PurposeParser(InputSection section) {
+    public PurposeParser(Section section) {
         super(section);
     }
 

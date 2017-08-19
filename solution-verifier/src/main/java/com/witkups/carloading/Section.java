@@ -8,11 +8,11 @@ import java.util.stream.Stream;
 
 @ToString
 @EqualsAndHashCode
-public class InputSection {
+public class Section {
     private String[][] content;
     private int currentContentSize;
 
-    public InputSection(int sectionLength) {
+    public Section(int sectionLength) {
         content = new String[sectionLength][];
         currentContentSize = 0;
     }

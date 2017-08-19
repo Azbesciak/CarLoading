@@ -9,7 +9,7 @@ import java.util.List;
 
 @Value
 @AllArgsConstructor
-public final class OutputParseResult {
+public final class Solution {
     private final Purpose purpose;
     private final List<PackagePlacement> packagePlacements;
 }

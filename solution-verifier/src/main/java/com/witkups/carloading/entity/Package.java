@@ -7,11 +7,16 @@ import lombok.Value;
 @Value
 @AllArgsConstructor
 @Builder
-public class Package {
+public class Package implements Comparable<Package>{
     private String id;
-    private int sequentialNumber;
+    private int sequenceId;
     private Host host;
     private int height;
     private boolean canBePlacedOnPackage;
-    private boolean canOtherPackageBePlaceOn;
+    private boolean canOtherPackageBePlacedOn;
+
+    @Override
+    public int compareTo(Package o) {
+        return Integer.compare(sequenceId, o.sequenceId);
+    }
 }

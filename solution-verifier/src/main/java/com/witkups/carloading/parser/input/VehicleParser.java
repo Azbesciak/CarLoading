@@ -1,15 +1,15 @@
 package com.witkups.carloading.parser.input;
 
-import com.witkups.carloading.InputSection;
+import com.witkups.carloading.Section;
 import com.witkups.carloading.entity.Vehicle;
-import com.witkups.carloading.parser.ObjectParser;
+import com.witkups.carloading.parser.SectionParser;
 
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 
-public class VehicleParser extends ObjectParser<Vehicle> {
-    public VehicleParser(InputSection section) {
+public class VehicleParser extends SectionParser<Vehicle> {
+    public VehicleParser(Section section) {
         super(section);
     }
 

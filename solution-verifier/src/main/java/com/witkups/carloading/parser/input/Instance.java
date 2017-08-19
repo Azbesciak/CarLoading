@@ -10,7 +10,7 @@ import java.util.List;
 
 @Value
 @AllArgsConstructor
-public final class InputParseResult {
+public final class Instance {
     private final Vehicle vehicle;
     private final List<Host> hosts;
     private final List<Package> packages;

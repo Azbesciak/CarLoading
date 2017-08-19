@@ -1,31 +1,33 @@
 package com.witkups.carloading.parser.output;
 
-import com.witkups.carloading.InputSection;
+import com.witkups.carloading.InputReader;
+import com.witkups.carloading.Section;
 import com.witkups.carloading.entity.PackagePlacement;
 import com.witkups.carloading.entity.Purpose;
-import com.witkups.carloading.parser.FileParser;
-import com.witkups.carloading.parser.input.InputParseResult;
+import com.witkups.carloading.parser.Parser;
+import com.witkups.carloading.parser.input.Instance;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.List;
 
-public class OutputFileParser extends FileParser<OutputParseResult> {
+public class SolutionParser implements Parser<Solution> {
 
     private static final int PACKAGE_PLACEMENT_SECTION_INDEX = 1;
     private static final int PURPOSE_SECTION_INDEX = 0;
-    private final InputParseResult inputParseResult;
+    private List<Section> sections;
+    private final Instance instance;
 
-    public OutputFileParser(String filePath, InputParseResult inputParseResult) throws IOException {
-        super(2, filePath);
-        this.inputParseResult = inputParseResult;
+    public SolutionParser(InputStream solutionInputStream, Instance instance) {
+        this.instance = instance;
+        this.sections = new InputReader(2, solutionInputStream).read();
     }
 
     @Override
-    public OutputParseResult parse() {
+    public Solution parse() {
         final Purpose purpose = getPurpose();
         final List<PackagePlacement> packagePlacements = getPlacementOfParcels();
-        return new OutputParseResult(purpose, packagePlacements);
+        return new Solution(purpose, packagePlacements);
     }
 
     private Purpose getPurpose() {
@@ -37,11 +39,11 @@ public class OutputFileParser extends FileParser<OutputParseResult> {
     private List<PackagePlacement> getPlacementOfParcels() {
         return new PackagePlacementParser(
                 getSection(PACKAGE_PLACEMENT_SECTION_INDEX),
-                inputParseResult.getPackages()
+                instance.getPackages()
         ).parse();
     }
 
-    private InputSection getSection(int index) {
-        return data.get(index);
+    private Section getSection(int index) {
+        return sections.get(index);
     }
 }

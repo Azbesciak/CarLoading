@@ -1,22 +1,20 @@
 package com.witkups.carloading.parser.input;
 
-import com.witkups.carloading.InputSection;
+import com.witkups.carloading.Section;
 import com.witkups.carloading.entity.Host;
-import com.witkups.carloading.parser.ObjectParser;
+import com.witkups.carloading.parser.SectionParser;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HostsParser extends ObjectParser<List<Host>> {
+public class HostsParser extends SectionParser<List<Host>> {
 
 
     private static final int ID_INDEX = 0;
     private static final int LENGTH_INDEX = 1;
     private static final int HEIGHT_INDEX = 2;
 
-    public HostsParser(InputSection section) {
+    public HostsParser(Section section) {
         super(section);
     }
 

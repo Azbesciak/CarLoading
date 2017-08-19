@@ -1,22 +1,22 @@
 package com.witkups.carloading.parser.output;
 
-import com.witkups.carloading.InputSection;
+import com.witkups.carloading.Section;
 import com.witkups.carloading.entity.Package;
 import com.witkups.carloading.entity.PackagePlacement;
-import com.witkups.carloading.parser.ObjectParser;
+import com.witkups.carloading.parser.SectionParser;
 
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class PackagePlacementParser extends ObjectParser<List<PackagePlacement>> {
+public class PackagePlacementParser extends SectionParser<List<PackagePlacement>> {
     private static final int IS_REVERSED_INDEX = 1;
     private static final int X_POSITION_INDEX = 2;
     private static final int Y_POSITION_INDEX = 3;
     private static final int PACKAGE_ID_INDEX = 0;
     private final List<Package> packages;
 
-    public PackagePlacementParser(InputSection section, List<Package> packages) {
+    public PackagePlacementParser(Section section, List<Package> packages) {
         super(section);
         this.packages = packages;
     }
