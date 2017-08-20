@@ -1,6 +1,8 @@
 package com.witkups.carloading;
 
-import com.witkups.carloading.parser.FileReader;
+import com.witkups.carloading.parser.reader.FileReader;
+import com.witkups.carloading.parser.reader.InputReader;
+import com.witkups.carloading.parser.Section;
 import com.witkups.carloading.parser.input.InstanceParser;
 import com.witkups.carloading.parser.input.Instance;
 

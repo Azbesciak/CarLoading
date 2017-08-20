@@ -1,6 +1,6 @@
 package com.witkups.carloading.parser.output;
 
-import com.witkups.carloading.Section;
+import com.witkups.carloading.parser.Section;
 import com.witkups.carloading.entity.Package;
 import com.witkups.carloading.entity.PackagePlacement;
 import com.witkups.carloading.entity.Placement;

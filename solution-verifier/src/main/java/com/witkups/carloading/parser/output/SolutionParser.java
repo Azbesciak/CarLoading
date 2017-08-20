@@ -1,13 +1,12 @@
 package com.witkups.carloading.parser.output;
 
-import com.witkups.carloading.InputReader;
-import com.witkups.carloading.Section;
+import com.witkups.carloading.parser.reader.InputReader;
+import com.witkups.carloading.parser.Section;
 import com.witkups.carloading.entity.PackagePlacement;
 import com.witkups.carloading.entity.Purpose;
 import com.witkups.carloading.parser.Parser;
 import com.witkups.carloading.parser.input.Instance;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 

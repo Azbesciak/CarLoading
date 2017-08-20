@@ -1,4 +1,4 @@
-package com.witkups.carloading.entity;
+package com.witkups.carloading.validation;
 
 import lombok.Builder;
 import lombok.Value;

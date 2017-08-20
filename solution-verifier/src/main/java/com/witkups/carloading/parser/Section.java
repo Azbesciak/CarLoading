@@ -1,4 +1,4 @@
-package com.witkups.carloading;
+package com.witkups.carloading.parser;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

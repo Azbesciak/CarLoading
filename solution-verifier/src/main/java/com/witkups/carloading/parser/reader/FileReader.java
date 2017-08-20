@@ -1,4 +1,4 @@
-package com.witkups.carloading.parser;
+package com.witkups.carloading.parser.reader;
 
 import java.io.*;
 

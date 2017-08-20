@@ -1,6 +1,6 @@
 package com.witkups.carloading.parser.input;
 
-import com.witkups.carloading.Section;
+import com.witkups.carloading.parser.Section;
 import com.witkups.carloading.entity.Host;
 import com.witkups.carloading.parser.SectionParser;
 
@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HostsParser extends SectionParser<List<Host>> {
-
 
     private static final int ID_INDEX = 0;
     private static final int LENGTH_INDEX = 1;

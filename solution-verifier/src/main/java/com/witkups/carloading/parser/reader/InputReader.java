@@ -1,4 +1,6 @@
-package com.witkups.carloading;
+package com.witkups.carloading.parser.reader;
+
+import com.witkups.carloading.parser.Section;
 
 import java.io.InputStream;
 import java.util.ArrayList;

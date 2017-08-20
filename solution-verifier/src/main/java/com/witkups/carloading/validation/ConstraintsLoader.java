@@ -1,6 +1,4 @@
-package com.witkups.carloading;
-
-import com.witkups.carloading.entity.Constraints;
+package com.witkups.carloading.validation;
 
 import java.io.InputStream;
 import java.util.Properties;
