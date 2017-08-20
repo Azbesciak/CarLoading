@@ -3,11 +3,14 @@ package com.witkups.carloading.parser.output;
 import com.witkups.carloading.Section;
 import com.witkups.carloading.entity.Package;
 import com.witkups.carloading.entity.PackagePlacement;
+import com.witkups.carloading.entity.Placement;
 import com.witkups.carloading.parser.SectionParser;
 
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static java.lang.Integer.*;
 
 public class PackagePlacementParser extends SectionParser<List<PackagePlacement>> {
     private static final int IS_REVERSED_INDEX = 1;
@@ -31,10 +34,17 @@ public class PackagePlacementParser extends SectionParser<List<PackagePlacement>
     private PackagePlacement preparePackagePlacement(String[] sectionLine) {
         return  PackagePlacement.builder()
                 .pack(getPackage(sectionLine))
-                .isReversed("1".equals(sectionLine[IS_REVERSED_INDEX]))
-                .distanceToLeftEdge(Integer.valueOf(sectionLine[X_POSITION_INDEX]))
-                .distanceToVehicleFront(Integer.valueOf(sectionLine[Y_POSITION_INDEX]))
+                .isPackageReversed(isPackageReversed(sectionLine[IS_REVERSED_INDEX]))
+                .placement(getPlacement(sectionLine))
                 .build();
+    }
+
+    private boolean isPackageReversed(String anObject) {
+        return "1".equals(anObject);
+    }
+
+    private Placement getPlacement(String[] sectionLine) {
+        return new Placement(valueOf(sectionLine[X_POSITION_INDEX]), valueOf(sectionLine[Y_POSITION_INDEX]));
     }
 
     private Package getPackage(String[] sectionLine) {

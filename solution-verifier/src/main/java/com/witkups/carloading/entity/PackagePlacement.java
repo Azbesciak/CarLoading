@@ -10,7 +10,6 @@ import lombok.Value;
 @Builder
 public class PackagePlacement {
     private final Package pack;
-    private final boolean isReversed;
-    private final int distanceToLeftEdge;
-    private final int distanceToVehicleFront;
+    private final boolean isPackageReversed;
+    private final Placement placement;
 }
