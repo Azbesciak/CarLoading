@@ -20,7 +20,6 @@ public class InstanceGenerator {
     private Vehicle vehicle;
 
     public InstanceGenerator(Constraints constraints) {
-
         this.constraints = constraints;
     }
 

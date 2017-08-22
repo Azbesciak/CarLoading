@@ -25,8 +25,7 @@ public class SolverTest {
 
         final List<Host> hosts = packages.stream().map(Package::getHost).collect(Collectors.toList());
         final Instance instance = new Instance(vehicle, hosts, packages);
-//        final Solver.Result result = new Solver.Result();
-        final Solution solution = new Solver(instance).prepareSolution().limit(100000).collect(Collectors.toList()).get(0);
+        final Solution solution = new Solver(instance).generateSolutions().limit(100000).collect(Collectors.toList()).get(0);
         assertEquals(2, solution.getPurpose().getMaxDistance());
         assertEquals(8, solution.getPurpose().getOccupiedPlace());
     }
@@ -40,7 +39,7 @@ public class SolverTest {
 
         final List<Host> hosts = packages.stream().map(Package::getHost).collect(Collectors.toList());
         final Instance instance = new Instance(vehicle, hosts, packages);
-        final Solution solution = new Solver(instance).prepareSolution().findFirst().get();
+        final Solution solution = new Solver(instance).generateSolutions().findFirst().get();
         assertEquals(4, solution.getPurpose().getMaxDistance());
         assertEquals(40, solution.getPurpose().getOccupiedPlace());
     }
@@ -61,9 +60,11 @@ public class SolverTest {
     public void validateImprovingSolution() {
         final Constraints constraints = new ConstraintsLoader().loadProperties();
         final Instance instance = new InstanceGenerator(constraints).prepare();
-        final Stream<Solution> solutionStream = new Solver(instance).prepareSolution();
-        final List<Purpose> results = solutionStream.limit(1000).map(Solution::getPurpose).collect(Collectors.toList());
-        results.forEach(System.out::println);
+        final Stream<Solution> solutionStream = new Solver(instance).generateBetterSolutions();
+        final List<Purpose> results = solutionStream
+                .map(Solution::getPurpose)
+                .peek(System.out::println)
+                .limit(5).collect(Collectors.toList());
         for (int i = 0; i < results.size() - 1; i++) {
             assertTrue("next solution should be not worse",results.get(i).compareTo(results.get(i + 1)) >= 0);
         }

@@ -9,23 +9,34 @@ import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 class SolutionsRepo {
-
     private final static int MAX_SOLUTIONS = 100;
     private final static int SOLUTIONS_TO_RETAIN = 10;
     private final static ReentrantReadWriteLock solutionsLock = new ReentrantReadWriteLock();
     private final static ReentrantReadWriteLock theBestLock = new ReentrantReadWriteLock();
     private final static Random randomGen = new Random();
-//    private static int ink = 0;
-    private Solution theBestSolution;
+    private static SolutionsRepo instance;
 
     private final List<Solution> solutions;
-    SolutionsRepo() {
+    private Solution theBestSolution;
+
+    static SolutionsRepo getRepoInstance() {
+        if (instance == null) {
+            synchronized (SolutionsRepo.class) {
+                if (instance == null) {
+                    instance = new SolutionsRepo();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private SolutionsRepo() {
         solutions = new ArrayList<>();
     }
 
     void add(Solution solution) {
+//        System.out.println("found solution " + solution.getPurpose() + " " + solution.isBetterThan(theBestSolution));
         updateSolutions(solution);
-//        System.err.println("adding solution " + solution.getPurpose() + " is better " + solution.isBetterThan(theBestSolution) + " i " + ink++);
         updateBestSolutionIfBetter(solution);
     }
 
@@ -65,5 +76,4 @@ class SolutionsRepo {
     Solution getTheBest() {
         return theBestSolution;
     }
-
 }
