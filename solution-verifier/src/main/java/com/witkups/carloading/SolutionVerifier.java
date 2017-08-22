@@ -1,13 +1,10 @@
 package com.witkups.carloading;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.witkups.carloading.parser.input.Instance;
-import com.witkups.carloading.parser.input.InstanceParser;
-import com.witkups.carloading.parser.output.Solution;
-import com.witkups.carloading.parser.output.SolutionParser;
+import com.witkups.carloading.entity.Instance;
+import com.witkups.carloading.parser.instance.InstanceParser;
+import com.witkups.carloading.entity.Solution;
+import com.witkups.carloading.parser.solution.SolutionParser;
 import com.witkups.carloading.parser.reader.FileReader;
 import com.witkups.carloading.validation.Constraints;
 import com.witkups.carloading.validation.ConstraintsLoader;
@@ -55,7 +52,7 @@ public class SolutionVerifier {
     }
 
     private static void exitWithInvalidArgument() {
-        throw new IllegalArgumentException("Please pass input and output parameter "
+        throw new IllegalArgumentException("Please pass instance and solution parameter "
                 + "as '-Pinput=\"<inputPath>\" -Poutput=\"<outputPath>\"");
     }
 

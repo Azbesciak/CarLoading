@@ -1,13 +1,15 @@
-package com.witkups.carloading.parser.output;
+package com.witkups.carloading.parser.solution;
 
+import com.witkups.carloading.entity.Solution;
 import com.witkups.carloading.parser.reader.InputReader;
 import com.witkups.carloading.parser.Section;
 import com.witkups.carloading.entity.PackagePlacement;
 import com.witkups.carloading.entity.Purpose;
 import com.witkups.carloading.parser.Parser;
-import com.witkups.carloading.parser.input.Instance;
+import com.witkups.carloading.entity.Instance;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 public class SolutionParser implements Parser<Solution> {
@@ -25,7 +27,7 @@ public class SolutionParser implements Parser<Solution> {
     @Override
     public Solution parse() {
         final Purpose purpose = getPurpose();
-        final List<PackagePlacement> packagePlacements = getPlacementOfParcels();
+        final List<PackagePlacement> packagePlacements = getPlacementOfPackages();
         return new Solution(purpose, packagePlacements);
     }
 
@@ -35,7 +37,7 @@ public class SolutionParser implements Parser<Solution> {
         ).parse();
     }
 
-    private List<PackagePlacement> getPlacementOfParcels() {
+    private List<PackagePlacement> getPlacementOfPackages() {
         return new PackagePlacementParser(
                 getSection(PACKAGE_PLACEMENT_SECTION_INDEX),
                 instance.getPackages()
@@ -44,5 +46,12 @@ public class SolutionParser implements Parser<Solution> {
 
     private Section getSection(int index) {
         return sections.get(index);
+    }
+
+    //TODO
+    public List<Section> prepareSections(Solution solution) {
+        Section purposeSection = new PurposeParser().toSection(solution.getPurpose());
+        Section placements = new PackagePlacementParser().toSection(solution.getPackagePlacements());
+        return Arrays.asList(purposeSection, placements);
     }
 }

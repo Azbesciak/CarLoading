@@ -1,7 +1,5 @@
-package com.witkups.carloading.parser.output;
+package com.witkups.carloading.entity;
 
-import com.witkups.carloading.entity.PackagePlacement;
-import com.witkups.carloading.entity.Purpose;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.experimental.Wither;
@@ -14,7 +12,7 @@ import java.util.stream.Stream;
 
 @Value
 @AllArgsConstructor
-public final class Solution {
+public final class Solution implements Comparable<Solution>{
     @Wither
     private final Purpose purpose;
     private final List<PackagePlacement> packagePlacements;
@@ -76,5 +74,14 @@ public final class Solution {
             if (currentPlacement.contains(nextView))
                 viewsIterator.remove();
         }
+    }
+
+    @Override
+    public int compareTo(Solution o) {
+        return this.purpose.compareTo(o.purpose);
+    }
+
+    public boolean isBetterThan(Solution other) {
+        return other == null || compareTo(other) < 0;
     }
 }

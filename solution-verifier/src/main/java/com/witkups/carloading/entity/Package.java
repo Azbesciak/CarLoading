@@ -1,8 +1,6 @@
 package com.witkups.carloading.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
 @Value
 @AllArgsConstructor
@@ -12,8 +10,19 @@ public class Package implements Comparable<Package>{
     private int sequenceId;
     private Host host;
     private int height;
+    @Getter(AccessLevel.NONE)
     private boolean canBePlacedOnPackage;
+    @Getter(AccessLevel.NONE)
     private boolean canOtherPackageBePlacedOn;
+
+    public boolean canBePlacedOnPackage() {
+        return canBePlacedOnPackage;
+    }
+
+    public boolean canOtherPackageBePlacedOn() {
+        return canOtherPackageBePlacedOn;
+    }
+
 
     @Override
     public int compareTo(Package o) {

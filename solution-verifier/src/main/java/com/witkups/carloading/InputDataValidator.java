@@ -4,8 +4,8 @@ import com.witkups.carloading.entity.Host;
 import com.witkups.carloading.entity.Package;
 import com.witkups.carloading.entity.Purpose;
 import com.witkups.carloading.entity.Vehicle;
-import com.witkups.carloading.parser.input.Instance;
-import com.witkups.carloading.parser.output.Solution;
+import com.witkups.carloading.entity.Instance;
+import com.witkups.carloading.entity.Solution;
 import com.witkups.carloading.validation.Constraints;
 import com.witkups.carloading.validation.PackagePlacementValidator;
 import com.witkups.carloading.validation.PlacementValidationError;
@@ -42,13 +42,11 @@ public class InputDataValidator {
             errors.add("Occupied place should equal to " + validPurpose.getOccupiedPlace());
         }
 
-        PackagePlacementValidator.throwErrorIfFail = true;
         try {
-            PackagePlacementValidator.checkPlacement(solution.getPackagePlacements(), instance.getVehicle());
+            PackagePlacementValidator.checkPlacementWithThrowing(solution.getPackagePlacements(), instance.getVehicle());
         } catch (PlacementValidationError e) {
             errors.add(e.getMessage() + "(caused by pack " + e.getPlacement().getPack().getId() + ")");
         }
-
         return errors;
     }
 

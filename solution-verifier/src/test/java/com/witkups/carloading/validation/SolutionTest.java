@@ -4,7 +4,7 @@ import com.witkups.carloading.entity.Host;
 import com.witkups.carloading.entity.Package;
 import com.witkups.carloading.entity.PackagePlacement;
 import com.witkups.carloading.entity.Placement;
-import com.witkups.carloading.parser.output.Solution;
+import com.witkups.carloading.entity.Solution;
 import org.junit.Test;
 
 import java.util.ArrayList;

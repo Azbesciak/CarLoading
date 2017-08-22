@@ -7,14 +7,8 @@ import com.witkups.carloading.entity.Placement;
 import org.junit.Test;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.util.*;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PackagePlacementTest {
 
@@ -36,9 +30,4 @@ public class PackagePlacementTest {
         assertEquals(20, reversed.getMaxX(), 0.01);
     }
 
-
-    @Test
-    public void testtest() {
-        assertTrue(new Rectangle(0,0,2,2).contains(new Rectangle(0,0,2,2)));
-    }
 }

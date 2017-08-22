@@ -1,4 +1,4 @@
-package com.witkups.carloading.parser.input;
+package com.witkups.carloading.parser.instance;
 
 import com.witkups.carloading.parser.Section;
 import com.witkups.carloading.entity.Host;
@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PackagesParser extends SectionParser<List<Package>> {
+    private static final int ID_INDEX = 0;
+    private static final int SEQUENCE_ID_INDEX = 1;
+    private static final int HOST_ID_INDEX = 2;
+    private static final int HEIGHT_INDEX = 3;
+    private static final int CAN_BE_PLACED_ON_PACKAGE_INDEX = 4;
+    private static final int CAN_OTHER_PACKAGE_BE_PLACED_ON_INDEX = 5;
     private final List<Host> hosts;
 
     public PackagesParser(Section section, List<Host> hosts) {
@@ -26,12 +32,12 @@ public class PackagesParser extends SectionParser<List<Package>> {
 
     private Package parse(String[] line) {
         return Package.builder()
-                .id(line[0])
-                .sequenceId(Integer.valueOf(line[1]))
-                .host(findHost(line[2]))
-                .height(Integer.valueOf(line[3]))
-                .canBePlacedOnPackage("1".equals(line[4]))
-                .canOtherPackageBePlacedOn("1".equals(line[5]))
+                .id(line[ID_INDEX])
+                .sequenceId(Integer.valueOf(line[SEQUENCE_ID_INDEX]))
+                .host(findHost(line[HOST_ID_INDEX]))
+                .height(Integer.valueOf(line[HEIGHT_INDEX]))
+                .canBePlacedOnPackage("1".equals(line[CAN_BE_PLACED_ON_PACKAGE_INDEX]))
+                .canOtherPackageBePlacedOn("1".equals(line[CAN_OTHER_PACKAGE_BE_PLACED_ON_INDEX]))
                 .build();
     }
 

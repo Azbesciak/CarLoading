@@ -3,8 +3,8 @@ package com.witkups.carloading;
 import com.witkups.carloading.parser.reader.FileReader;
 import com.witkups.carloading.parser.reader.InputReader;
 import com.witkups.carloading.parser.Section;
-import com.witkups.carloading.parser.input.InstanceParser;
-import com.witkups.carloading.parser.input.Instance;
+import com.witkups.carloading.parser.instance.InstanceParser;
+import com.witkups.carloading.entity.Instance;
 
 import java.io.*;
 import java.util.*;
@@ -16,7 +16,7 @@ public class SolutionConstructor {
         int sectionsToRead = 3;
         List<Section> sections = new InputReader(sectionsToRead, System.in).read();
         sections.forEach(section -> section.getSectionStream().forEach(arr -> System.out.println(Arrays.toString(arr))));
-        final InputStream inputStream = FileReader.read("src/test/resources/input-file.txt");
+        final InputStream inputStream = FileReader.read("src/test/resources/instance-file.txt");
         final Instance parse = new InstanceParser(inputStream).parse();
 
     }

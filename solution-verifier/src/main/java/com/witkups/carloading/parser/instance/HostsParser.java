@@ -1,4 +1,4 @@
-package com.witkups.carloading.parser.input;
+package com.witkups.carloading.parser.instance;
 
 import com.witkups.carloading.parser.Section;
 import com.witkups.carloading.entity.Host;

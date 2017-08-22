@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class PackagePlacementValidator {
 
-    public static boolean throwErrorIfFail = false;
+    private static boolean throwErrorIfFail = false;
 
     private PackagePlacement packagePlacement;
     private Rectangle placementFromAbove;
@@ -20,6 +20,15 @@ public class PackagePlacementValidator {
         this.packagePlacement = packagePlacement;
         this.vehicle = vehicle;
         this.placementFromAbove = packagePlacement.asViewFromAbove();
+    }
+
+    public static boolean checkPlacementWithThrowing(List<PackagePlacement> packagePlacements, Vehicle vehicle) {
+        throwErrorIfFail = true;
+        try {
+            return checkPlacement(packagePlacements, vehicle);
+        } finally {
+            throwErrorIfFail = false;
+        }
     }
 
     public static boolean checkPlacement(List<PackagePlacement> packagePlacements, Vehicle vehicle) {
@@ -39,7 +48,9 @@ public class PackagePlacementValidator {
 
     public boolean canBePlaced(List<PackagePlacement> precedingPackagePlacements) {
         if (!precedingPackagePlacements.contains(packagePlacement)) {
-            if (isWidthConditionFulfilled()) {
+            if (isWidthConditionFulfilled() &&
+                    allPrecedingPackagesHaveNotGreaterSequenceId(precedingPackagePlacements)) {
+
                 final List<PackagePlacement> packagesBelow = getPackagesBellow(precedingPackagePlacements);
                 return canBePlacedInThatPlace(packagesBelow) &&
                         isStackNotHigherThanVehicle(packagesBelow) &&
@@ -49,6 +60,13 @@ public class PackagePlacementValidator {
         } else {
             throw new IllegalStateException("Package already placed!");
         }
+    }
+
+    private boolean allPrecedingPackagesHaveNotGreaterSequenceId(List<PackagePlacement> precedingPackagePlacements) {
+        final boolean result = precedingPackagePlacements.stream()
+                .allMatch(this::hasNotGreaterSequenceId);
+        throwErrorIfShould(result, "package with greater sequence id is already placed");
+        return result;
     }
 
     private boolean canBePlacedInThatPlace(List<PackagePlacement> packagesBelow) {
@@ -86,11 +104,15 @@ public class PackagePlacementValidator {
 
     private boolean canBePlacedOnPackage(PackagePlacement otherPackPlacement) {
         final boolean result = otherPackPlacement.asViewFromAbove().contains(placementFromAbove) &&
-                otherPackPlacement.getPack().isCanOtherPackageBePlacedOn() &&
-                packagePlacement.getPack().isCanBePlacedOnPackage() &&
-                otherPackPlacement.getPack().getSequenceId() <= packagePlacement.getPack().getSequenceId();
+                otherPackPlacement.getPack().canOtherPackageBePlacedOn() &&
+                packagePlacement.getPack().canBePlacedOnPackage() &&
+                hasNotGreaterSequenceId(otherPackPlacement);
         throwErrorIfShould(result, "package cannot be placed on package " + otherPackPlacement.getPack().getId());
         return result;
+    }
+
+    private boolean hasNotGreaterSequenceId(PackagePlacement otherPackPlacement) {
+        return otherPackPlacement.getPack().getSequenceId() <= packagePlacement.getPack().getSequenceId();
     }
 
     private boolean noPackageWhichDisturbAccess(List<PackagePlacement> precedingPackagePlacements) {
