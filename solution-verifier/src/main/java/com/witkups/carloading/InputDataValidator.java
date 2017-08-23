@@ -1,14 +1,14 @@
 package com.witkups.carloading;
 
-import com.witkups.carloading.entity.Host;
-import com.witkups.carloading.entity.Package;
-import com.witkups.carloading.entity.Purpose;
-import com.witkups.carloading.entity.Vehicle;
-import com.witkups.carloading.entity.Instance;
-import com.witkups.carloading.entity.Solution;
-import com.witkups.carloading.validation.Constraints;
-import com.witkups.carloading.validation.PackagePlacementValidator;
-import com.witkups.carloading.validation.PlacementValidationError;
+import com.witkups.carloading.instance.hosts.Host;
+import com.witkups.carloading.instance.packages.Package;
+import com.witkups.carloading.solution.purpose.Purpose;
+import com.witkups.carloading.instance.vehicle.Vehicle;
+import com.witkups.carloading.instance.Instance;
+import com.witkups.carloading.solution.Solution;
+import com.witkups.carloading.validation.constraints.Constraints;
+import com.witkups.carloading.validation.packageplacements.PackagePlacementValidator;
+import com.witkups.carloading.validation.packageplacements.PlacementValidationError;
 
 import java.util.ArrayList;
 import java.util.List;

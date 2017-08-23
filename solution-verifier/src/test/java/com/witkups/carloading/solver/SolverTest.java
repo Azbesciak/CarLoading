@@ -1,10 +1,14 @@
 package com.witkups.carloading.solver;
 
 import com.witkups.carloading.InstanceGenerator;
-import com.witkups.carloading.entity.*;
-import com.witkups.carloading.entity.Package;
-import com.witkups.carloading.validation.Constraints;
-import com.witkups.carloading.validation.ConstraintsLoader;
+import com.witkups.carloading.instance.packages.Package;
+import com.witkups.carloading.instance.Instance;
+import com.witkups.carloading.instance.hosts.Host;
+import com.witkups.carloading.instance.vehicle.Vehicle;
+import com.witkups.carloading.solution.Solution;
+import com.witkups.carloading.solution.purpose.Purpose;
+import com.witkups.carloading.validation.constraints.Constraints;
+import com.witkups.carloading.validation.constraints.ConstraintsLoader;
 import org.junit.Test;
 
 import java.util.List;
@@ -25,7 +29,7 @@ public class SolverTest {
 
         final List<Host> hosts = packages.stream().map(Package::getHost).collect(Collectors.toList());
         final Instance instance = new Instance(vehicle, hosts, packages);
-        final Solution solution = new Solver(instance).generateSolutions().limit(100000).collect(Collectors.toList()).get(0);
+        final Solution solution = new Solver(instance).generateSolutions().findFirst().get();
         assertEquals(2, solution.getPurpose().getMaxDistance());
         assertEquals(8, solution.getPurpose().getOccupiedPlace());
     }
@@ -62,9 +66,10 @@ public class SolverTest {
         final Instance instance = new InstanceGenerator(constraints).prepare();
         final Stream<Solution> solutionStream = new Solver(instance).generateBetterSolutions();
         final List<Purpose> results = solutionStream
+                .sequential()
                 .map(Solution::getPurpose)
                 .peek(System.out::println)
-                .limit(5).collect(Collectors.toList());
+                .limit(2).collect(Collectors.toList());
         for (int i = 0; i < results.size() - 1; i++) {
             assertTrue("next solution should be not worse",results.get(i).compareTo(results.get(i + 1)) >= 0);
         }

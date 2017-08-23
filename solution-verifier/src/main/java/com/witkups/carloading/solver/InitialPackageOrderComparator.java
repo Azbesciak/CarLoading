@@ -1,6 +1,6 @@
 package com.witkups.carloading.solver;
 
-import com.witkups.carloading.entity.Package;
+import com.witkups.carloading.instance.packages.Package;
 
 import java.util.Comparator;
 

@@ -1,9 +1,9 @@
 package com.witkups.carloading.solver;
 
-import com.witkups.carloading.entity.Instance;
-import com.witkups.carloading.entity.Package;
-import com.witkups.carloading.entity.PackagePlacement;
-import com.witkups.carloading.entity.Solution;
+import com.witkups.carloading.instance.Instance;
+import com.witkups.carloading.instance.packages.Package;
+import com.witkups.carloading.solution.packageplacements.PackagePlacement;
+import com.witkups.carloading.solution.Solution;
 
 import java.util.List;
 import java.util.stream.Collectors;

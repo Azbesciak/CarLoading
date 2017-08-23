@@ -1,7 +1,11 @@
 package com.witkups.carloading.validation;
 
-import com.witkups.carloading.entity.*;
-import com.witkups.carloading.entity.Package;
+import com.witkups.carloading.instance.packages.Package;
+import com.witkups.carloading.instance.hosts.Host;
+import com.witkups.carloading.instance.vehicle.Vehicle;
+import com.witkups.carloading.solution.packageplacements.PackagePlacement;
+import com.witkups.carloading.solution.packageplacements.Placement;
+import com.witkups.carloading.validation.packageplacements.PackagePlacementValidator;
 import org.junit.Test;
 
 import java.util.*;

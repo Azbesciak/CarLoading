@@ -1,13 +1,12 @@
 package com.witkups.carloading;
 
-import com.google.gson.GsonBuilder;
-import com.witkups.carloading.entity.Instance;
-import com.witkups.carloading.parser.instance.InstanceParser;
-import com.witkups.carloading.entity.Solution;
-import com.witkups.carloading.parser.solution.SolutionParser;
-import com.witkups.carloading.parser.reader.FileReader;
-import com.witkups.carloading.validation.Constraints;
-import com.witkups.carloading.validation.ConstraintsLoader;
+import com.witkups.carloading.instance.Instance;
+import com.witkups.carloading.instance.InstanceParser;
+import com.witkups.carloading.solution.Solution;
+import com.witkups.carloading.solution.SolutionParser;
+import com.witkups.carloading.processing.reader.FileReader;
+import com.witkups.carloading.validation.constraints.Constraints;
+import com.witkups.carloading.validation.constraints.ConstraintsLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,15 +23,8 @@ public class SolutionVerifier {
         final Constraints constraints = new ConstraintsLoader().loadProperties();
         System.out.println(constraints);
         Instance instance = getInstance(instanceFilePath);
-//        printAsJson(instance);
         Solution solution = getSolution(solutionFilePath, instance);
-        printAsJson(solution);
         validate(instance, solution, constraints);
-
-    }
-
-    private static void printAsJson(Object object) {
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(object));
     }
 
     private static Solution getSolution(String solutionFilePath, Instance instance) throws IOException {
@@ -55,6 +47,4 @@ public class SolutionVerifier {
         throw new IllegalArgumentException("Please pass instance and solution parameter "
                 + "as '-Pinput=\"<inputPath>\" -Poutput=\"<outputPath>\"");
     }
-
-
 }

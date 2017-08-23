@@ -1,7 +1,7 @@
 package com.witkups.carloading.solver;
 
-import com.witkups.carloading.entity.Instance;
-import com.witkups.carloading.entity.Solution;
+import com.witkups.carloading.instance.Instance;
+import com.witkups.carloading.solution.Solution;
 
 import java.util.stream.Stream;
 

@@ -1,10 +1,10 @@
 package com.witkups.carloading;
 
-import com.witkups.carloading.entity.Host;
-import com.witkups.carloading.entity.Instance;
-import com.witkups.carloading.entity.Package;
-import com.witkups.carloading.entity.Vehicle;
-import com.witkups.carloading.validation.Constraints;
+import com.witkups.carloading.instance.hosts.Host;
+import com.witkups.carloading.instance.Instance;
+import com.witkups.carloading.instance.packages.Package;
+import com.witkups.carloading.instance.vehicle.Vehicle;
+import com.witkups.carloading.validation.constraints.Constraints;
 
 import java.util.List;
 import java.util.Random;

@@ -1,8 +1,11 @@
 package com.witkups.carloading.solver;
 
-import com.witkups.carloading.entity.*;
-import com.witkups.carloading.entity.Package;
-import com.witkups.carloading.validation.PackagePlacementValidator;
+import com.witkups.carloading.instance.packages.Package;
+import com.witkups.carloading.instance.Instance;
+import com.witkups.carloading.solution.Solution;
+import com.witkups.carloading.solution.packageplacements.PackagePlacement;
+import com.witkups.carloading.solution.packageplacements.Placement;
+import com.witkups.carloading.validation.packageplacements.PackagePlacementValidator;
 
 import java.util.List;
 import java.util.stream.IntStream;
