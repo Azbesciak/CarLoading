@@ -15,8 +15,8 @@ import static com.witkups.carloading.validation.InputDataValidator.validate;
 
 public class SolutionVerifier {
 	public static void main(String[] args) throws IOException {
-		if (args.length < 2)
-			exitWithInvalidArgument();
+
+		exitWithInvalidArgument(args);
 
 		String instanceFilePath = args[0];
 		String solutionFilePath = args[1];
@@ -43,8 +43,12 @@ public class SolutionVerifier {
 		return instance;
 	}
 
-	private static void exitWithInvalidArgument() {
+	private static void exitWithInvalidArgument(String[] args) {
+		if (args.length == 2) {
+			//			if (StringUtils.isNotBlank(args[0]) && StringUtils.isNotBlank(args[1]))
+			return;
+		}
 		throw new IllegalArgumentException("Please pass instance and solution parameter "
-				+ "as '-Pinput=\"<inputPath>\" -Poutput=\"<outputPath>\"");
+				                                   + "as '-Pinput=\"<inputPath>\" -Poutput=\"<outputPath>\"");
 	}
 }

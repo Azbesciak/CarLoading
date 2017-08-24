@@ -3,27 +3,38 @@ package com.witkups.carloading;
 import com.witkups.carloading.instance.Instance;
 import com.witkups.carloading.instance.InstanceParser;
 import com.witkups.carloading.processing.Section;
-import com.witkups.carloading.processing.reader.FileReader;
 import com.witkups.carloading.solution.Solution;
 import com.witkups.carloading.solution.SolutionSerializer;
 import com.witkups.carloading.solver.Solver;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SolutionConstructor {
 	public static void main(String[] args) throws IOException {
-//		int sectionsToRead = 3;
-//		        List<Section> sections = new InputReader(sectionsToRead, System.in).read();
-		//        sections.forEach(section -> section.getSectionStream().forEach(arr -> System.out.println(Arrays.toString(arr))));
-//		final InputStream inputStream = new FileReader("src/test/resources/instance-file.txt").read();
-		final Instance instance = new InstanceParser(System.in).parse();
-		new Solver(instance).generateSolutions()
-		                    .sequential()
-		                    .map(SolutionConstructor::stringifySolution)
-		                    .findFirst()
-		                    .ifPresent(System.out::println);
+		final Instance instance = readInstanceFromSystemIn();
+		final Stream<Solution> solutionStream = generateSolutions(instance);
+		final Stream<String> stringStream = printSolutions(solutionStream);
+		finalizeWhenAnyFound(stringStream);
+	}
+
+	public static Stream<Solution> generateSolutions(Instance instance) {
+		return new Solver(instance).generateBetterSolutions();
+	}
+
+	public static Instance readInstanceFromSystemIn() throws IOException {
+		System.out.println("Pass an instance data:");
+		return new InstanceParser(System.in).parse();
+	}
+
+	public static void finalizeWhenAnyFound(Stream<String> solutions) {
+		solutions.sequential().findAny();
+	}
+
+	public static Stream<String> printSolutions(Stream<Solution> solutions) {
+		return solutions.map(SolutionConstructor::stringifySolution)
+		                .peek(System.out::println);
 	}
 
 	public static String stringifySolution(Solution solution) {

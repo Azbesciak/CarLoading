@@ -11,4 +11,9 @@ public class SolutionVerifierTest {
 		SolutionVerifier.main(SAMPLE_MAIN_ARGS);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void noArgsToMain() throws Exception {
+		SolutionVerifier.main(new String[]{});
+	}
+
 }
