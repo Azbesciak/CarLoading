@@ -9,16 +9,19 @@ repositories {
     mavenCentral()
 }
 
+task validate(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.witkups.carloading.SolutionVerifier"
+    args = ["$inp", "$out"]
+}
+
+task construct(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.witkups.carloading.SolutionConstructor"
+}
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compileOnly 'org.projectlombok:lombok:1.16.18'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
 
 }
 
-//task myRun(type: JavaExec) {
-//    classpath sourceSets.main.runtimeClasspath
-//   main = "com.witkups.carloading.SolutionVerifier"
-//    args = ["$inp","$out"]
-//}

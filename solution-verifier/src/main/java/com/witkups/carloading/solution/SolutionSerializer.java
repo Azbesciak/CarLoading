@@ -13,27 +13,26 @@ import java.util.List;
 import static com.witkups.carloading.solution.SolutionSectionStructure.*;
 
 public class SolutionSerializer implements Serializer<List<Section>> {
+	private final List<PackagePlacement> placements;
+	private final Purpose purpose;
 
-    private final List<PackagePlacement> placements;
-    private final Purpose purpose;
+	public SolutionSerializer(Solution solution) {
+		this.placements = solution.getPackagePlacements();
+		this.purpose = solution.getPurpose();
+	}
 
-    public SolutionSerializer(Solution solution) {
-        this.placements = solution.getPackagePlacements();
-        this.purpose = solution.getPurpose();
-    }
+	@Override
+	public List<Section> serialize() {
+		final Section placementsSection = new PackagePlacementsSerializer(placements).serialize();
+		final Section purposeSection = new PurposeSerializer(purpose).serialize();
+		return prepareResult(placementsSection, purposeSection);
+	}
 
-    @Override
-    public List<Section> serialize() {
-        final Section placementsSection = new PackagePlacementsSerializer(placements).serialize();
-        final Section purposeSection = new PurposeSerializer(purpose).serialize();
-        return prepareResult(placementsSection, purposeSection);
-    }
-
-    private List<Section> prepareResult(Section placementsSection, Section purposeSection) {
-        final List<Section> sections = new ArrayList<>(SOLUTION_SECTIONS);
-        sections.add(PURPOSE_SECTION_INDEX, purposeSection);
-        sections.add(PACKAGE_PLACEMENT_SECTION_INDEX, placementsSection);
-        return sections;
-    }
+	private List<Section> prepareResult(Section placementsSection, Section purposeSection) {
+		final List<Section> sections = new ArrayList<>(SOLUTION_SECTIONS);
+		sections.add(PURPOSE_SECTION_INDEX, purposeSection);
+		sections.add(PACKAGE_PLACEMENT_SECTION_INDEX, placementsSection);
+		return sections;
+	}
 
 }

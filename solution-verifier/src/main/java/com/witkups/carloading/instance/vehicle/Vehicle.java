@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 @AllArgsConstructor
 public class Vehicle {
-    private final int width;
-    private final int height;
+	private final int width;
+	private final int height;
 }

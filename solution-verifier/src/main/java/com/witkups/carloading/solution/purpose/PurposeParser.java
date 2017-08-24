@@ -5,31 +5,25 @@ import com.witkups.carloading.processing.SectionParser;
 
 import java.util.Optional;
 
-import static java.lang.Integer.*;
+import static com.witkups.carloading.solution.purpose.PurposeSectionStructure.*;
+import static java.lang.Integer.parseInt;
 
-public class PurposeParser extends SectionParser<Purpose> {
+public final class PurposeParser extends SectionParser<Purpose> {
+	public PurposeParser(Section section) {
+		super(section);
+	}
 
-    private static final int MAX_DISTANCE_INDEX = 0;
-    private static final int OCCUPIED_PLACE_INDEX = 1;
+	@Override
+	public Purpose parse() {
+		final Optional<Purpose> purpose = section.getSectionStream()
+		                                         .peek(line -> validateLength(line, PURPOSE_FIELDS))
+		                                         .map(this::preparePurpose)
+		                                         .findFirst();
 
-    public PurposeParser(Section section) {
-        super(section);
-    }
+		return purpose.orElseThrow(() -> new IllegalStateException("Purpose function not found"));
+	}
 
-    @Override
-    public Purpose parse() {
-        final Optional<Purpose> purpose = section.getSectionStream()
-                .map(this::preparePurpose)
-                .findFirst();
-
-        return purpose.orElseThrow(() -> new IllegalStateException("Purpose function not found"));
-    }
-
-    private Purpose preparePurpose(String[] sectionLine) {
-        return new Purpose(
-                parseInt(sectionLine[MAX_DISTANCE_INDEX]),
-                parseInt(sectionLine[OCCUPIED_PLACE_INDEX])
-        );
-    }
-
+	private Purpose preparePurpose(String[] sectionLine) {
+		return new Purpose(parseInt(sectionLine[MAX_DISTANCE_INDEX]), parseInt(sectionLine[OCCUPIED_PLACE_INDEX]));
+	}
 }

@@ -7,7 +7,7 @@ import lombok.experimental.Wither;
 @Value
 @AllArgsConstructor
 @Wither
-public class Placement {
-    private final int distanceToLeftEdge;
-    private final int distanceToVehicleFront;
+public final class Placement {
+	private final int distanceToLeftEdge;
+	private final int distanceToVehicleFront;
 }

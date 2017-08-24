@@ -15,36 +15,30 @@ import java.util.List;
 import static com.witkups.carloading.solution.SolutionSectionStructure.*;
 
 public class SolutionParser implements Parser<Solution> {
+	private List<Section> sections;
+	private final Instance instance;
 
-    private List<Section> sections;
-    private final Instance instance;
+	public SolutionParser(InputStream solutionInputStream, Instance instance) {
+		this.instance = instance;
+		this.sections = new InputReader(SOLUTION_SECTIONS, solutionInputStream).read();
+	}
 
-    public SolutionParser(InputStream solutionInputStream, Instance instance) {
-        this.instance = instance;
-        this.sections = new InputReader(SOLUTION_SECTIONS, solutionInputStream).read();
-    }
+	@Override
+	public Solution parse() {
+		final Purpose purpose = getPurpose();
+		final List<PackagePlacement> packagePlacements = getPlacementOfPackages();
+		return new Solution(purpose, packagePlacements);
+	}
 
-    @Override
-    public Solution parse() {
-        final Purpose purpose = getPurpose();
-        final List<PackagePlacement> packagePlacements = getPlacementOfPackages();
-        return new Solution(purpose, packagePlacements);
-    }
+	private Purpose getPurpose() {
+		return new PurposeParser(getSection(PURPOSE_SECTION_INDEX)).parse();
+	}
 
-    private Purpose getPurpose() {
-        return new PurposeParser(
-                getSection(PURPOSE_SECTION_INDEX)
-        ).parse();
-    }
+	private List<PackagePlacement> getPlacementOfPackages() {
+		return new PackagePlacementsParser(getSection(PACKAGE_PLACEMENT_SECTION_INDEX), instance.getPackages()).parse();
+	}
 
-    private List<PackagePlacement> getPlacementOfPackages() {
-        return new PackagePlacementsParser(
-                getSection(PACKAGE_PLACEMENT_SECTION_INDEX),
-                instance.getPackages()
-        ).parse();
-    }
-
-    private Section getSection(int index) {
-        return sections.get(index);
-    }
+	private Section getSection(int index) {
+		return sections.get(index);
+	}
 }

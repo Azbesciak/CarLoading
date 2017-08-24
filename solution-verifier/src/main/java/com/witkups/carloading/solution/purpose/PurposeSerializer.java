@@ -2,26 +2,26 @@ package com.witkups.carloading.solution.purpose;
 
 import com.witkups.carloading.processing.Section;
 import com.witkups.carloading.processing.Serializer;
+import lombok.AllArgsConstructor;
 
-public class PurposeSerializer implements Serializer<Section> {
+import static com.witkups.carloading.solution.purpose.PurposeSectionStructure.*;
+import static java.lang.String.*;
 
-    private final Purpose purpose;
+@AllArgsConstructor
+public final class PurposeSerializer implements Serializer<Section> {
+	private final Purpose purpose;
 
-    public PurposeSerializer(Purpose purpose) {
-        this.purpose = purpose;
-    }
+	@Override
+	public Section serialize() {
+		final Section section = new Section(1);
+		section.add(getAsString(purpose));
+		return section;
+	}
 
-    @Override
-    public Section serialize() {
-        final Section section = new Section(1);
-        section.add(getAsString(purpose));
-        return section;
-    }
-
-
-    private String[] getAsString(Purpose purpose) {
-        return new String[]{String.valueOf(purpose.getMaxDistance()), String.valueOf(purpose.getOccupiedPlace())};
-    }
-
-
+	private String[] getAsString(Purpose purpose) {
+		final String[] line = new String[PURPOSE_FIELDS];
+		line[MAX_DISTANCE_INDEX] = valueOf(purpose.getMaxDistance());
+		line[OCCUPIED_PLACE_INDEX] = valueOf(purpose.getOccupiedPlace());
+		return line;
+	}
 }
