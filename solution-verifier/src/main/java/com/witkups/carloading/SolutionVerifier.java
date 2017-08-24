@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static com.witkups.carloading.validation.InputDataValidator.validate;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class SolutionVerifier {
 	public static void main(String[] args) throws IOException {
-
-		exitWithInvalidArgument(args);
+		exitIfFilesNotProvided(args);
 
 		String instanceFilePath = args[0];
 		String solutionFilePath = args[1];
@@ -43,10 +43,10 @@ public class SolutionVerifier {
 		return instance;
 	}
 
-	private static void exitWithInvalidArgument(String[] args) {
+	private static void exitIfFilesNotProvided(String[] args) {
 		if (args.length == 2) {
-			//			if (StringUtils.isNotBlank(args[0]) && StringUtils.isNotBlank(args[1]))
-			return;
+			if (isNotBlank(args[0]) && isNotBlank(args[1]))
+				return;
 		}
 		throw new IllegalArgumentException("Please pass instance and solution parameter "
 				                                   + "as '-Pinput=\"<inputPath>\" -Poutput=\"<outputPath>\"");
