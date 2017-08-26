@@ -1,13 +1,12 @@
 package com.witkups.carloading.processing.reader;
 
+import lombok.AllArgsConstructor;
+
 import java.io.*;
 
-public class FileReader {
+@AllArgsConstructor
+public final class FileReader implements Reader<InputStream>{
 	private final String filePath;
-
-	public FileReader(String filePath) {
-		this.filePath = filePath;
-	}
 
 	public InputStream read() throws IOException {
 		final File file = new File(filePath);

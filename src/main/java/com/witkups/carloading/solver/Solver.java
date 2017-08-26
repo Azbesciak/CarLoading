@@ -5,7 +5,7 @@ import com.witkups.carloading.solution.Solution;
 
 import java.util.stream.Stream;
 
-public class Solver {
+final public class Solver {
 	private final InitialSolutionMaker initialSolutionMaker;
 	private final ContinuousSolutionMaker continuousSolutionMaker;
 
@@ -19,7 +19,7 @@ public class Solver {
 		return generateSolutions().filter(resultFilter::validate);
 	}
 
-	public Stream<Solution> generateSolutions() {
+	Stream<Solution> generateSolutions() {
 		final Solution initialSolution = initialSolutionMaker.findSolution();
 		return Stream.concat(Stream.of(initialSolution), Stream.generate(continuousSolutionMaker::findSolution))
 		             .parallel();

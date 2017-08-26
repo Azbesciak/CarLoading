@@ -2,16 +2,20 @@ package com.witkups.carloading.validation.packageplacements;
 
 import com.witkups.carloading.instance.vehicle.Vehicle;
 import com.witkups.carloading.solution.packageplacements.PackagePlacement;
+import lombok.Getter;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class PackagePlacementValidator {
+public final class PackagePlacementValidator {
 	private final PackagePlacement packagePlacement;
 	private final Rectangle placementFromAbove;
 	private final Vehicle vehicle;
 	private boolean throwErrorOnFail = false;
+	@Getter
+	private Optional<PackagePlacement> obstacle = Optional.empty();
 
 	private PackagePlacementValidator(PackagePlacement packagePlacement, Vehicle vehicle, boolean throwErrorOnFail) {
 		this(packagePlacement, vehicle);
@@ -29,10 +33,10 @@ public class PackagePlacementValidator {
 			Vehicle vehicle,
 			boolean throwErrorOnFail) {
 		return packagePlacements.stream()
-		         .allMatch(placement ->
-				                   new PackagePlacementValidator(placement, vehicle, throwErrorOnFail)
-						                   .isPlacedCorrect(packagePlacements)
-		                  );
+		                        .allMatch(placement ->
+				                                  new PackagePlacementValidator(placement, vehicle, throwErrorOnFail)
+						                                  .isPlacedCorrect(packagePlacements)
+		                                 );
 	}
 
 	public boolean isPlacedCorrect(List<PackagePlacement> allPackagePlacements) {
@@ -50,8 +54,9 @@ public class PackagePlacementValidator {
 					&& allPrecedingPackagesHaveNotGreaterSequenceId(precedingPackagePlacements)) {
 
 				final List<PackagePlacement> packagesBelow = getPackagesBellow(precedingPackagePlacements);
-				return canBePlacedInThatPlace(packagesBelow) && isStackNotHigherThanVehicle(packagesBelow)
-						&& noPackageWhichDisturbAccess(precedingPackagePlacements);
+				return canBePlacedInThatPlace(packagesBelow) &&
+				       isStackNotHigherThanVehicle(packagesBelow) &&
+				       noPackageWhichDisturbAccess(precedingPackagePlacements);
 			}
 			return false;
 		} else {
@@ -74,11 +79,10 @@ public class PackagePlacementValidator {
 	}
 
 	private boolean isStackNotHigherThanVehicle(List<PackagePlacement> packagesBelow) {
-		final int stackHeight = packagesBelow.stream()
-		                                     .map(packPlacement -> packPlacement.getPack()
-		                                                                        .getHeight())
-		                                     .reduce(0, Integer::sum) + packagePlacement.getPack()
-		                                                                                .getHeight();
+		final int stackHeight =
+				packagesBelow.stream()
+				             .map(packPlacement -> packPlacement.getPack().getHeight())
+				             .reduce(0, Integer::sum) + packagePlacement.getPack().getHeight();
 		final boolean result = stackHeight <= vehicle.getHeight();
 		throwErrorIfShould(result, "packages stack is higher than vehicle");
 		return result;
@@ -91,7 +95,9 @@ public class PackagePlacementValidator {
 	}
 
 	private boolean isWidthConditionFulfilled() {
-		final boolean result = vehicle.getWidth() >= placementFromAbove.getMaxX() && placementFromAbove.getX() >= 0;
+		final boolean result =
+				vehicle.getWidth() >= placementFromAbove.getMaxX() &&
+				placementFromAbove.getX() >= 0;
 		throwErrorIfShould(result, "package is out of vehicle width");
 		return result;
 	}
@@ -101,21 +107,34 @@ public class PackagePlacementValidator {
 	}
 
 	private boolean canBePlacedOnPackage(PackagePlacement otherPackPlacement) {
-		final boolean result = otherPackPlacement.asViewFromAbove()
-		                                         .contains(placementFromAbove) && otherPackPlacement.getPack()
-		                                                                                            .canOtherPackageBePlacedOn()
-				&& packagePlacement.getPack()
-				                   .canBePlacedOnPackage() && hasNotGreaterSequenceId(otherPackPlacement);
-		throwErrorIfShould(result,
-		                   "package cannot be placed on package " + otherPackPlacement.getPack()
-		                                                                              .getId());
-		return result;
+		final boolean canBePlacedOn =
+				packagesHaveTheSamePlacementCords(otherPackPlacement) &&
+				packBellowTotallyContainThatPack(otherPackPlacement) &&
+				otherPackPlacement.getPack().canOtherPackageBePlacedOn() &&
+				packagePlacement.getPack().canBePlacedOnPackage() &&
+				hasNotGreaterSequenceId(otherPackPlacement);
+		rememberAsObstacleIfCannotBePlacedOn(otherPackPlacement, canBePlacedOn);
+		throwErrorIfShould(canBePlacedOn,
+		                   "package cannot be placed on package " + otherPackPlacement.getPack().getId());
+		return canBePlacedOn;
+	}
+
+	private void rememberAsObstacleIfCannotBePlacedOn(PackagePlacement otherPackPlacement, boolean canBePlacedOn) {
+		if (!canBePlacedOn) {
+			obstacle = Optional.of(otherPackPlacement);
+		}
+	}
+
+	private boolean packBellowTotallyContainThatPack(PackagePlacement otherPackPlacement) {
+		return otherPackPlacement.asViewFromAbove().contains(placementFromAbove);
+	}
+
+	private boolean packagesHaveTheSamePlacementCords(PackagePlacement otherPackPlacement) {
+		return otherPackPlacement.getPlacement().equals(packagePlacement.getPlacement());
 	}
 
 	private boolean hasNotGreaterSequenceId(PackagePlacement otherPackPlacement) {
-		return otherPackPlacement.getPack()
-		                         .getSequenceId() <= packagePlacement.getPack()
-		                                                             .getSequenceId();
+		return otherPackPlacement.getPack().getSequenceId() <= packagePlacement.getPack().getSequenceId();
 	}
 
 	private boolean noPackageWhichDisturbAccess(List<PackagePlacement> precedingPackagePlacements) {
@@ -129,9 +148,7 @@ public class PackagePlacementValidator {
 	}
 
 	private boolean onlyFromPrecedingSequences(PackagePlacement otherPackagePlacement) {
-		return otherPackagePlacement.getPack()
-		                            .getSequenceId() < packagePlacement.getPack()
-		                                                               .getSequenceId();
+		return otherPackagePlacement.getPack().getSequenceId() < packagePlacement.getPack().getSequenceId();
 	}
 
 	private boolean justCloserToTheExit(Rectangle otherViewFromAbove) {
@@ -139,8 +156,8 @@ public class PackagePlacementValidator {
 	}
 
 	private boolean canAccessValidatedPackage(Rectangle otherViewFromAbove) {
-		return otherViewFromAbove.getMaxX() <= placementFromAbove.getX()
-				|| otherViewFromAbove.getX() >= placementFromAbove.getMaxX();
+		return otherViewFromAbove.getMaxX() <= placementFromAbove.getX() ||
+				otherViewFromAbove.getX() >= placementFromAbove.getMaxX();
 	}
 
 	private void throwErrorIfShould(boolean result, String reason) {

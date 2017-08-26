@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import static java.lang.String.valueOf;
 
 @EqualsAndHashCode
-public class Section {
+public final class Section {
 	private String[][] content;
 	private int currentContentSize;
 
@@ -40,7 +40,7 @@ public class Section {
 		return result.toString();
 	}
 
-	public static String buildSectionLine(String[] line) {
+	static String buildSectionLine(String[] line) {
 		return String.join("\t", line) + System.lineSeparator();
 	}
 

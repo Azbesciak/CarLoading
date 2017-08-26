@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-class SolutionsRepo {
+final class SolutionsRepo {
 	private final static int MAX_SOLUTIONS = 100;
 	private final static int SOLUTIONS_TO_RETAIN = 10;
 	private final static ReentrantReadWriteLock solutionsLock = new ReentrantReadWriteLock();

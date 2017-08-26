@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-class ContinuousSolutionMaker extends SolutionMaker {
+final class ContinuousSolutionMaker extends SolutionMaker {
 	ContinuousSolutionMaker(Instance instance) {
 		super(instance);
 	}

@@ -4,7 +4,7 @@ import com.witkups.carloading.instance.packages.Package;
 
 import java.util.Comparator;
 
-class InitialPackageOrderComparator implements Comparator<Package> {
+final class InitialPackageOrderComparator implements Comparator<Package> {
 	@Override
 	public int compare(Package p1, Package p2) {
 		if (p1.getSequenceId() == p2.getSequenceId()) {

@@ -12,8 +12,8 @@ repositories {
 task validate(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = "com.witkups.carloading.SolutionVerifier"
-    if (project.hasProperty("inp") && project.hasProperty("outp")) {
-        args = ["$inp", "$outp"]
+    if (project.hasProperty("instance") && project.hasProperty("solution")) {
+        args = ["$instance", "$solution"]
     }
 }
 
@@ -22,10 +22,18 @@ task construct(type: JavaExec) {
     main = "com.witkups.carloading.SolutionConstructor"
     standardInput = System.in
 }
+
+task optimize(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.witkups.carloading.Optimizer"
+    standardInput = System.in
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compileOnly 'org.projectlombok:lombok:1.16.18'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
 
 }
 

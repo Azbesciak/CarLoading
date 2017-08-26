@@ -8,6 +8,7 @@ import com.witkups.carloading.solution.packageplacements.Placement;
 import com.witkups.carloading.validation.packageplacements.PackagePlacementValidator;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 abstract class SolutionMaker {
@@ -32,18 +33,34 @@ abstract class SolutionMaker {
 		int widthLimit = instance.getVehicle()
 		                         .getWidth() - getPackageWidth(packPlacement.getPack(), isPackageReversed);
 		for (int y = 0; ; y++)
-			for (int x = 0; x <= widthLimit; x++) {
-				final PackagePlacement placement = packPlacement.withPlacement(new Placement(x, y));
-				placements.set(placementIndex, placement);
-				final boolean isPlacedCorrect = checkPlacement(placements, placement);
+			for (int x = 0; x <= widthLimit; ) {
+				final PackagePlacement placement = updatePackPlacement(placements, placementIndex, packPlacement, y, x);
+				final PackagePlacementValidator validator = getValidator(placement);
+				final boolean isPlacedCorrect = validator.isPlacedCorrect(placements);
 				if (isPlacedCorrect) {
 					return;
+				}
+				else {
+					x = moveAwayFromTheObstacle(x, validator);
 				}
 			}
 	}
 
-	private boolean checkPlacement(List<PackagePlacement> placements, PackagePlacement placement) {
-		return new PackagePlacementValidator(placement, instance.getVehicle()).isPlacedCorrect(placements);
+	private int moveAwayFromTheObstacle(int x, PackagePlacementValidator validator) {
+		return validator.getObstacle()
+		                .map(p -> p.asViewFromAbove().getMaxX())
+		                .orElse(x + 1.0).intValue();
+	}
+
+	private PackagePlacement updatePackPlacement(List<PackagePlacement> placements, int placementIndex,
+			PackagePlacement packPlacement, int y, int x) {
+		final PackagePlacement placement = packPlacement.withPlacement(new Placement(x, y));
+		placements.set(placementIndex, placement);
+		return placement;
+	}
+
+	private PackagePlacementValidator getValidator(PackagePlacement placement) {
+		return new PackagePlacementValidator(placement, instance.getVehicle());
 	}
 
 	private int getPackageWidth(Package pack, boolean isPackageReversed) {

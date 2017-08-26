@@ -5,7 +5,7 @@ import java.util.Properties;
 
 import static java.lang.Integer.parseInt;
 
-public class ConstraintsLoader {
+public final class ConstraintsLoader {
 	private static final String constraintsFile = "constraints.properties";
 	private Properties prop;
 

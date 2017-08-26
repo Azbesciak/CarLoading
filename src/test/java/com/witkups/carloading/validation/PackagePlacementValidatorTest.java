@@ -193,8 +193,30 @@ public class PackagePlacementValidatorTest {
 			new PackagePlacementValidator(invalidInstance, vehicle).canBePlaced(
 					Collections.singletonList(invalidInstance));
 			fail("should throw exception");
-		} catch (PlacementValidationError ignored) {
-		}
+		} catch (PlacementValidationError ignored) {}
+	}
 
+	@Test
+	public void validateTwoPlacedOnOne() {
+		final Vehicle vehicle = new Vehicle(10, 10);
+		final PackagePlacement base =
+				prepareMediumPackagePlacement(10, 2, 10, 0, 0,0, true, true);
+		final PackagePlacement left =
+				prepareMediumPackagePlacement(5, 2, 5, 0, 0, 0, true, true);
+		final PackagePlacement right =
+				prepareMediumPackagePlacement(5, 2, 5, 0, 5, 0, true, true);
+		final List<PackagePlacement> placement = Arrays.asList(base, left, right);
+		final boolean isValid = PackagePlacementValidator.checkPlacement(placement, vehicle, false);
+		assertFalse(isValid);
+	}
+
+	@Test
+	public void validatePlacedOnOtherButOutgoing() {
+		final Vehicle vehicle = new Vehicle(10, 10);
+		final PackagePlacement base = prepareMediumPackagePlacement(5, 2, 10, 0, 0, 0, true, true);
+		final PackagePlacement top = prepareMediumPackagePlacement(10, 2, 5, 0, 0, 0, true, true);
+		final List<PackagePlacement> placements = Arrays.asList(base, top);
+		final boolean isValid = PackagePlacementValidator.checkPlacement(placements, vehicle, false);
+		assertFalse(isValid);
 	}
 }

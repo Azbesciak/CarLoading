@@ -12,7 +12,7 @@ import java.util.List;
 
 import static com.witkups.carloading.solution.SolutionSectionStructure.*;
 
-public class SolutionSerializer implements Serializer<List<Section>> {
+public final class SolutionSerializer implements Serializer<List<Section>> {
 	private final List<PackagePlacement> placements;
 	private final Purpose purpose;
 
@@ -34,5 +34,4 @@ public class SolutionSerializer implements Serializer<List<Section>> {
 		sections.add(PACKAGE_PLACEMENT_SECTION_INDEX, placementsSection);
 		return sections;
 	}
-
 }

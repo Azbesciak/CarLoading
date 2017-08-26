@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
-public class InputReader {
+public final class InputReader implements Reader<List<Section>> {
 	private final InputStream inputStream;
 	private int sectionsToRead;
 	private Scanner scanner;

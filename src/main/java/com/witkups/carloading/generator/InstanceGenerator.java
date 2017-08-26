@@ -1,4 +1,4 @@
-package com.witkups.carloading;
+package com.witkups.carloading.generator;
 
 import com.witkups.carloading.instance.Instance;
 import com.witkups.carloading.instance.hosts.Host;
@@ -13,9 +13,9 @@ import java.util.stream.IntStream;
 import static java.lang.Math.min;
 import static java.util.stream.Collectors.toList;
 
-public class InstanceGenerator {
+public final class InstanceGenerator {
+	private static final Random random = new Random();
 	private final Constraints constraints;
-	private static final Random randomGenerator = new Random();
 	private List<Host> hosts;
 	private Vehicle vehicle;
 
@@ -37,13 +37,13 @@ public class InstanceGenerator {
 	}
 
 	private Package preparePackage(int id) {
-		final int packHeight = min(randomGenerator.nextInt(constraints.getMaxPackageHeight()), vehicle.getHeight());
+		final int packHeight = min(random.nextInt(constraints.getMaxPackageHeight()), vehicle.getHeight());
 		return Package.builder()
-		              .canBePlacedOnPackage(randomGenerator.nextBoolean())
-		              .canOtherPackageBePlacedOn(randomGenerator.nextBoolean())
-		              .sequenceId(randomGenerator.nextInt(constraints.getMaxSequences()))
+		              .canBePlacedOnPackage(random.nextBoolean())
+		              .canOtherPackageBePlacedOn(random.nextBoolean())
+		              .sequenceId(random.nextInt(constraints.getMaxSequences()))
 		              .height(packHeight)
-		              .host(hosts.get(randomGenerator.nextInt(hosts.size())))
+		              .host(hosts.get(random.nextInt(hosts.size())))
 		              .id("" + id)
 		              .build();
 	}
@@ -56,7 +56,7 @@ public class InstanceGenerator {
 
 	private int getRandomIntValue(int max) {
 		final int base = max / 2;
-		return randomGenerator.nextInt(base) + base;
+		return random.nextInt(base) + base;
 	}
 
 	private List<Host> prepareHosts() {
@@ -67,8 +67,8 @@ public class InstanceGenerator {
 
 	private Host buildHost(int i) {
 
-		final int length = min(randomGenerator.nextInt(constraints.getMaxHostLength()), vehicle.getWidth());
-		final int width = min(randomGenerator.nextInt(constraints.getMaxHostWidth()), vehicle.getWidth());
+		final int length = min(random.nextInt(constraints.getMaxHostLength()), vehicle.getWidth());
+		final int width = min(random.nextInt(constraints.getMaxHostWidth()), vehicle.getWidth());
 		return Host.builder()
 		           .id("" + i)
 		           .length(length)

@@ -31,5 +31,4 @@ public class SolutionSerializerTest {
 					.ifPresent(originalContent -> assertEquals(originalContent, sectionsInString));
 		}
 	}
-
 }

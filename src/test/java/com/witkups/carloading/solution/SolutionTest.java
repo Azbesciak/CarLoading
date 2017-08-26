@@ -65,15 +65,19 @@ public class SolutionTest {
 
 	private PackagePlacement preparePlacement(int width, int length, int x, int y) {
 		return PackagePlacement.builder()
-		                       .pack(Package.builder()
-		                                    .host(Host.builder()
-		                                              .width(width)
-		                                              .length(length)
-		                                              .build())
-		                                    .canOtherPackageBePlacedOn(true)
-		                                    .canBePlacedOnPackage(true)
-		                                    .build())
+		                       .pack(buildPackage(width, length))
 		                       .placement(new Placement(x, y))
 		                       .build();
+	}
+
+	private Package buildPackage(int width, int length) {
+		return Package.builder()
+		              .host(Host.builder()
+		                        .width(width)
+		                        .length(length)
+		                        .build())
+		              .canOtherPackageBePlacedOn(true)
+		              .canBePlacedOnPackage(true)
+		              .build();
 	}
 }

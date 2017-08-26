@@ -1,6 +1,6 @@
 package com.witkups.carloading.solver;
 
-import com.witkups.carloading.InstanceGenerator;
+import com.witkups.carloading.generator.InstanceGenerator;
 import com.witkups.carloading.instance.Instance;
 import com.witkups.carloading.instance.hosts.Host;
 import com.witkups.carloading.instance.packages.Package;

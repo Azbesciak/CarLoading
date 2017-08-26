@@ -8,7 +8,7 @@ import com.witkups.carloading.solution.packageplacements.PackagePlacement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class InitialSolutionMaker extends SolutionMaker {
+final class InitialSolutionMaker extends SolutionMaker {
 	InitialSolutionMaker(Instance instance) {
 		super(instance);
 	}
