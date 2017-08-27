@@ -9,10 +9,7 @@ import com.witkups.carloading.validation.packageplacements.PackagePlacementValid
 import com.witkups.carloading.validation.packageplacements.PlacementValidationError;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.witkups.carloading.PlacementTestProvider.prepareMediumPackagePlacement;
 import static com.witkups.carloading.PlacementTestProvider.prepareSimplePlacement;
@@ -218,5 +215,55 @@ public class PackagePlacementValidatorTest {
 		final List<PackagePlacement> placements = Arrays.asList(base, top);
 		final boolean isValid = PackagePlacementValidator.checkPlacement(placements, vehicle, false);
 		assertFalse(isValid);
+	}
+
+	@Test
+	public void bigSmallAndMediumOnEachOther() {
+		final Vehicle vehicle = new Vehicle(10, 10);
+		final PackagePlacement medium = prepareMediumPackagePlacement(10, 2, 5, 0, 0, 0, true, true);
+		final PackagePlacement small = prepareMediumPackagePlacement(5, 2, 5, 0, 0, 0, true, true);
+		final PackagePlacement big = prepareMediumPackagePlacement(10, 2, 10, 0, 0, 0, true, true);
+		final List<PackagePlacement> invalidPlacement = Arrays.asList(medium, small, big);
+		final boolean invalid = PackagePlacementValidator.checkPlacement(invalidPlacement, vehicle, false);
+		assertFalse(invalid);
+		final List<PackagePlacement> validPlacement = Arrays.asList(big, medium, small);
+		final boolean valid = PackagePlacementValidator.checkPlacement(validPlacement, vehicle, false);
+		assertTrue(valid);
+	}
+
+
+	@Test
+	public void obstacleDetection() {
+		final Vehicle vehicle = new Vehicle(10, 10);
+		final PackagePlacement base = prepareMediumPackagePlacement(10, 2, 10, 0, 0, 0, true, true);
+		final PackagePlacement middle = prepareMediumPackagePlacement(5, 2, 5, 0, 0, 0, true, true);
+		final PackagePlacement invalidTop = prepareMediumPackagePlacement(5, 2, 5, 0, 2, 2, true, true);
+		final List<PackagePlacement> invalidPlacement = Arrays.asList(base, middle, invalidTop);
+
+		final PackagePlacementValidator invalidValidator = new PackagePlacementValidator(invalidTop, vehicle);
+		final boolean placedCorrect = invalidValidator.isPlacedCorrect(invalidPlacement);
+		assertFalse(placedCorrect);
+		final Optional<PackagePlacement> obstacle = invalidValidator.getObstacle();
+		assertTrue(obstacle.isPresent());
+		assertEquals(base, obstacle.get()); // wrong placement cord (base = 0,0, invalidTop = 2,2)
+
+
+		final PackagePlacement validTop = prepareMediumPackagePlacement(5, 2, 5, 0, 0, 0, true, true);
+		final PackagePlacementValidator validValidator = new PackagePlacementValidator(validTop, vehicle);
+		final List<PackagePlacement> validPlacement = Arrays.asList(base, middle, validTop);
+		final boolean correct = validValidator.isPlacedCorrect(validPlacement);
+		assertTrue(correct);
+		assertFalse(validValidator.getObstacle().isPresent());
+	}
+
+	@Test
+	public void packagesOnBigOneButNotTotallyOnEachOther() {
+		final Vehicle vehicle = new Vehicle(10, 10);
+		final PackagePlacement base = prepareMediumPackagePlacement(10, 2, 10, 0, 0, 0, true, true);
+		final PackagePlacement middle = prepareMediumPackagePlacement(5, 2, 5, 0, 0, 0, true, true);
+		final PackagePlacement top = prepareMediumPackagePlacement(5, 2, 5, 0, 2, 2, true, true);
+		final List<PackagePlacement> invalidPlacement = Arrays.asList(base, middle, top);
+		final boolean invalid = PackagePlacementValidator.checkPlacement(invalidPlacement, vehicle, false);
+		assertFalse(invalid);
 	}
 }
