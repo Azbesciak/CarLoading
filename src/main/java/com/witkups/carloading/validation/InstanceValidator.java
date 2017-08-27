@@ -22,6 +22,11 @@ public final class InstanceValidator {
 
 	private void validateHosts() {
 		final List<Host> hosts = instance.getHosts();
+		final long distinctIdCount = hosts.stream().map(Host::getId).distinct().count();
+		if (distinctIdCount != hosts.size()) {
+			throw new ConstraintsValidationError("Host ids must be unique");
+		}
+
 		if (hosts.size() > constraints.getMaxHosts()) {
 			throw new ConstraintsValidationError("More hosts than allowed", constraints.getMaxHosts());
 		}
@@ -43,6 +48,12 @@ public final class InstanceValidator {
 
 	private void validatePackages() {
 		final List<Package> packages = instance.getPackages();
+
+		final long distinctIdCount = packages.stream().map(Package::getId).distinct().count();
+		if (distinctIdCount != packages.size()) {
+			throw new ConstraintsValidationError("Package ids must be unique");
+		}
+
 		final long sequences = packages.stream()
 		                               .map(Package::getSequenceId)
 		                               .distinct()

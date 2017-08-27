@@ -1,6 +1,5 @@
 package com.witkups.carloading;
 
-import java.io.IOException;
 import java.util.stream.Stream;
 
 import static com.witkups.carloading.ConstructorUtils.finalizeWhenAnySolutionFound;

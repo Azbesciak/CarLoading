@@ -3,12 +3,9 @@ package com.witkups.carloading.validation;
 import com.witkups.carloading.instance.Instance;
 import com.witkups.carloading.solution.Solution;
 import com.witkups.carloading.solution.purpose.Purpose;
-import com.witkups.carloading.validation.constraints.Constraints;
-import com.witkups.carloading.validation.packageplacements.PackagePlacementValidator;
-import com.witkups.carloading.validation.packageplacements.PlacementValidationError;
 import lombok.AllArgsConstructor;
 
-import static com.witkups.carloading.validation.packageplacements.PackagePlacementValidator.*;
+import static com.witkups.carloading.validation.packageplacements.PackagePlacementValidator.checkPlacement;
 
 @AllArgsConstructor
 public final class SolutionValidator {
@@ -19,7 +16,7 @@ public final class SolutionValidator {
 		validatePurpose();
 		checkPlacement(solution.getPackagePlacements(), instance.getVehicle(), true);
 	}
-	
+
 	private void validatePurpose() {
 		final Purpose inputPurpose = solution.getPurpose();
 		if (inputPurpose.getMaxDistance() < 0) {
@@ -27,11 +24,11 @@ public final class SolutionValidator {
 		}
 		final Purpose validPurpose = new Solution(solution.getPackagePlacements()).getPurpose();
 		if (validPurpose.getMaxDistance() != inputPurpose.getMaxDistance()) {
-			throw new ConstraintsValidationError("Max distance is not correct - should be " + validPurpose.getMaxDistance());
+			throw new ConstraintsValidationError(
+					"Max distance is not correct - should be " + validPurpose.getMaxDistance());
 		}
 		if (validPurpose.getOccupiedPlace() != inputPurpose.getOccupiedPlace()) {
 			throw new ConstraintsValidationError("Occupied place should equal to " + validPurpose.getOccupiedPlace());
 		}
-
 	}
 }
