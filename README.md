@@ -70,11 +70,12 @@ p1      0       16      0
 
 You can use included `gradle wraper` (version 3.5-rc-2) or installed on your computer (tested on gradle 4.0.1).<br>
 Invokable commands: <br>
-| Command    | Task |
-| ---------- | ------------------ |
-| `gradle validate -Pinstance="<instance file path>" -Psolution="<solution file path>"` | *validates given instance and solution with constraints* |
-| `gradle construct` | *creates just one solution for the given in the next step instance* |
-| `gradle optimize` | *as same as above, but generates only better than preceding solutions infinity* |
+
+ Command                                                                               | Task 
+ ------------------------------------------------------------------------------------- | ------------------ -------------------------------------------------------------
+ `gradle validate -Pinstance="<instance file path>" -Psolution="<solution file path>"` | *validates given instance and solution with constraints*
+ `gradle construct`                                                                    | *creates just one solution for the given in the next step instance*
+ `gradle optimize`                                                                     | *as same as above, but generates only better than preceding solutions infinity*
 
 *In `construct` and `optimize` you need to pass values through the console.*
 > Constraints values are placed in `constraints.properties`,<br>
