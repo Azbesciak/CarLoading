@@ -1,6 +1,6 @@
 # CarLoading
 ## Project target
-This project target is to optimize process of loading car with given packages, fitting to the constraints.<br>
+The purpose of this project is to optimize the process of loading car with given packages, fitting to the constraints.<br>
 Some of the packages can be placed on another, and (or not) another on them. Also, there is requirement that packages from previous sections need placed before farther sections.
 Access to each section cannot be disturbed in straight line by any of preceding sections.<br>
 We can specify two types of data: *instance* and *solution*. Also, let's assume we have *section* -
@@ -12,7 +12,7 @@ Instance input has 3 sections:
 - hosts, // we can say, it is area took on the floor
 - actual packages.
 
-> booleans are `1` as `true`, or `0` as `false`.
+> booleans are `true` as `1`, and `false` as `0`.
  
 So it should looks like bellow:
 ````
@@ -77,7 +77,7 @@ Invokable commands: <br>
  `gradle construct`                                                                    | *creates just one solution for the given in the next step instance*
  `gradle optimize`                                                                     | *as same as above, but generates only better than preceding solutions infinity*
 
-*In `construct` and `optimize` you need to pass values through the console.*
+*In* `construct` *and* `optimize` *you need to pass values through the console.*
 > Constraints values are placed in `constraints.properties`,<br>
  as same as solver properties in `solver.properties` in `resources` directory.<br>
  All values are integers.
