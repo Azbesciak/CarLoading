@@ -5,7 +5,6 @@ import com.witkups.carloading.solution.Solution;
 import com.witkups.carloading.solution.packageplacements.PackagePlacement;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 final class ContinuousSolutionMaker extends SolutionMaker {
     private static final Random rand = new Random();
@@ -34,7 +33,7 @@ final class ContinuousSolutionMaker extends SolutionMaker {
         final List<PackagePlacement> placementsCopy = copyPlacements(placements);
 
         if (shouldSwap) {
-            final boolean isSwapped = RandomSwapper.swap(placements);
+            final boolean isSwapped = RandomSwapper.swap(placementsCopy);
             if (isSwapped) {
                 return placementsCopy;
             }

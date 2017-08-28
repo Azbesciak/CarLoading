@@ -48,32 +48,34 @@ final class RandomSwapper {
 
     private boolean swapInSection(List<PackagePlacement> currentPlacement) {
         if (!groupedBySection.isEmpty()) {
-            final List<PackagePlacement> placements = getRandomSection();
-            int first = getRandomPlacementInSection(currentPlacement, placements);
-            int second = getRandomPlacementInSection(currentPlacement, placements);
-            Collections.swap(currentPlacement, first, second);
+            final List<PackagePlacement> randomSection = getRandomSection();
+            int first = getRandomPlacementInSection(currentPlacement, randomSection);
+            int second = getRandomPlacementInSection(currentPlacement, randomSection);
+            synchronized (this) {
+                Collections.swap(currentPlacement, first, second);
+            }
             return true;
         }
         return false;
     }
 
-    private int getRandomPlacementInSection(List<PackagePlacement> currentPlacement,
-                                            List<PackagePlacement> placements) {
-        final PackagePlacement firstPlacement = getAndRemoveRandomPlacement(placements);
-        return getIndexInCurrentPlacement(firstPlacement, currentPlacement);
+    private int getRandomPlacementInSection(List<PackagePlacement> currentPlacements,
+                                            List<PackagePlacement> randomSection) {
+        final PackagePlacement randomPlacement = getAndRemoveRandomPlacement(randomSection);
+        return getIndexInCurrentPlacement(randomPlacement, currentPlacements);
     }
 
-    private PackagePlacement getAndRemoveRandomPlacement(List<PackagePlacement> placements) {
-        final int firstPlacementIndex = randomGen.nextInt(placements.size());
-        final PackagePlacement firstPlacement = placements.get(firstPlacementIndex);
-        placements.remove(firstPlacementIndex);
-        return firstPlacement;
+    private PackagePlacement getAndRemoveRandomPlacement(List<PackagePlacement> sectionPlacements) {
+        final int randomPlacementIndex = randomGen.nextInt(sectionPlacements.size());
+        final PackagePlacement randomPlacement = sectionPlacements.get(randomPlacementIndex);
+        sectionPlacements.remove(randomPlacementIndex);
+        return randomPlacement;
     }
 
-    private int getIndexInCurrentPlacement(PackagePlacement placement, List<PackagePlacement> currentPlacement) {
-        final String currentPackId = placement.getPack().getId();
-        for (int i = 0; i < currentPlacement.size(); i++) {
-            final String verifiedPackId = currentPlacement.get(i).getPack().getId();
+    private int getIndexInCurrentPlacement(PackagePlacement randomPlacement, List<PackagePlacement> currentPlacements) {
+        final String currentPackId = randomPlacement.getPack().getId();
+        for (int i = 0; i < currentPlacements.size(); i++) {
+            final String verifiedPackId = currentPlacements.get(i).getPack().getId();
             if (StringUtils.equals(currentPackId, verifiedPackId)) {
                 return i;
             }
