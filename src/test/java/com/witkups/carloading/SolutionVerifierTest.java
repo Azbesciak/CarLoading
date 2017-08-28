@@ -1,5 +1,6 @@
 package com.witkups.carloading;
 
+import com.witkups.carloading.solver.OptimizerTestBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,7 @@ import java.security.Permission;
 
 import static com.witkups.carloading.TestFilesData.SAMPLE_MAIN_ARGS;
 
-public class SolutionVerifierTest {
+public class SolutionVerifierTest extends OptimizerTestBase{
 
 	private SecurityManager defaultSecurityManager;
 

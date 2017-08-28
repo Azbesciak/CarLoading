@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SolverTest {
+public class SolverTest extends OptimizerTestBase {
 	@Test
 	public void sameEdgesAndCanBePlacedOnEachOther() throws Exception {
 		final Vehicle vehicle = new Vehicle(10, 10);

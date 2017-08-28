@@ -4,10 +4,8 @@ import com.witkups.carloading.instance.Instance;
 import com.witkups.carloading.solution.Solution;
 import com.witkups.carloading.solution.packageplacements.PackagePlacement;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 final class ContinuousSolutionMaker extends SolutionMaker {
     private static final Random rand = new Random();
@@ -36,7 +34,7 @@ final class ContinuousSolutionMaker extends SolutionMaker {
         final List<PackagePlacement> placementsCopy = copyPlacements(placements);
 
         if (shouldSwap) {
-            final boolean isSwapped = makeRandomSwap(placementsCopy);
+            final boolean isSwapped = RandomSwapper.swap(placements);
             if (isSwapped) {
                 return placementsCopy;
             }
@@ -55,28 +53,5 @@ final class ContinuousSolutionMaker extends SolutionMaker {
         final PackagePlacement placement = placements.get(randomPackagePlacementIndex);
         final boolean changed = !placement.isPackageReversed();
         placements.set(randomPackagePlacementIndex, placement.withPackageReversed(changed));
-    }
-
-    private boolean makeRandomSwap(List<PackagePlacement> placements) {
-        for (int i = 0; i < placements.size() - 1; i++) {
-            for (int y = 0; y < placements.size(); y++) {
-                if (swapIfPossible(placements, i, y)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean swapIfPossible(List<PackagePlacement> placements, int p1, int p2) {
-        if (packagesSeqIdsAreEqual(placements, p1, p2) && rand.nextBoolean()) {
-            Collections.swap(placements, p1, p2);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean packagesSeqIdsAreEqual(List<PackagePlacement> placements, int p1, int p2) {
-        return placements.get(p1).getPack().getSequenceId() == placements.get(p2).getPack().getSequenceId();
     }
 }

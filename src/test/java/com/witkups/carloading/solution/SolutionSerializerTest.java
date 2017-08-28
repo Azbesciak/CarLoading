@@ -5,6 +5,7 @@ import com.witkups.carloading.instance.Instance;
 import com.witkups.carloading.instance.InstanceParser;
 import com.witkups.carloading.processing.Section;
 import com.witkups.carloading.processing.reader.FileReader;
+import com.witkups.carloading.solver.OptimizerTestBase;
 import org.junit.Test;
 
 import java.io.InputStream;
