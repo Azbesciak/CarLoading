@@ -1,31 +1,20 @@
 package com.witkups.carloading.validation.constraints;
 
+import com.witkups.carloading.processing.PropertiesLoader;
+
 import java.io.InputStream;
 import java.util.Properties;
 
 import static java.lang.Integer.parseInt;
 
-public final class ConstraintsLoader {
-	private static final String constraintsFile = "constraints.properties";
-	private Properties prop;
+public final class ConstraintsLoader extends PropertiesLoader<Constraints> {
 
 	public ConstraintsLoader() {
-		this.prop = new Properties();
+		super("constraints.properties");
 	}
 
-	public Constraints loadProperties() {
-
-		try (InputStream input = Constraints.class.getClassLoader()
-		                                          .getResourceAsStream(constraintsFile)) {
-			prop.load(input);
-		} catch (Exception e) {
-			System.err.println("No property file was found, used default");
-		}
-
-		return buildConstraints();
-	}
-
-	private Constraints buildConstraints() {
+	@Override
+	protected Constraints build() {
 		return Constraints.builder()
 		                  .maxVehicleWidth(getIntProp("vehicle.width", "40"))
 		                  .maxVehicleHeight(getIntProp("vehicle.height", "40"))
@@ -36,9 +25,5 @@ public final class ConstraintsLoader {
 		                  .maxHostWidth(getIntProp("host.width", "20"))
 		                  .maxPackageHeight(getIntProp("package.height", "40"))
 		                  .build();
-	}
-
-	private int getIntProp(String property, String defaultValue) {
-		return parseInt(prop.getProperty(property, defaultValue));
 	}
 }

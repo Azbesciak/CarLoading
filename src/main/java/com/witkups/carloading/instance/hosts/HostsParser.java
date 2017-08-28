@@ -38,6 +38,6 @@ public final class HostsParser extends SectionParser<List<Host>> {
 	}
 
 	private int getHostHeight(String[] line) {
-		return Integer.valueOf(line[HEIGHT_INDEX]);
+		return Integer.valueOf(line[WIDTH_INDEX]);
 	}
 }

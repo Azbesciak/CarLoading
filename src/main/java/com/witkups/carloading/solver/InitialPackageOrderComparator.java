@@ -35,8 +35,6 @@ final class InitialPackageOrderComparator implements Comparator<Package> {
 	}
 
 	private int getPackArea(Package pack) {
-		return pack.getHost()
-		           .getLength() * pack.getHost()
-		                              .getWidth();
+		return pack.getHost().getLength() * pack.getHost().getWidth();
 	}
 }

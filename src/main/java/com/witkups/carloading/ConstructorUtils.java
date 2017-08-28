@@ -28,7 +28,7 @@ final class ConstructorUtils {
 	}
 
 	static void validateInstance(Instance instance) {
-		final Constraints constraints = new ConstraintsLoader().loadProperties();
+		final Constraints constraints = new ConstraintsLoader().load();
 		new InstanceValidator(instance, constraints).validate();
 	}
 

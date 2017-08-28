@@ -19,24 +19,22 @@ public final class PackagePlacementsSerializer implements Serializer<Section> {
 	public Section serialize() {
 		final Section section = new Section(placements.size());
 		placements.stream()
-		          .map(this::toStringArray)
-		          .forEachOrdered(section::add);
+				.map(this::toStringArray)
+				.forEachOrdered(section::add);
 		return section;
 	}
 
 	private String[] toStringArray(PackagePlacement packagePlacement) {
 		final String[] resultRow = new String[PLACEMENT_FIELDS];
-		resultRow[PACKAGE_ID_INDEX] = packagePlacement.getPack()
-		                                              .getId();
+		resultRow[PACKAGE_ID_INDEX] = packagePlacement.getPack().getId();
 		resultRow[IS_REVERSED_INDEX] = packagePlacement.isPackageReversed() ? "1" : "0";
 
-		final int distanceToLeftEdge = packagePlacement.getPlacement()
-		                                               .getDistanceToLeftEdge();
+		final int distanceToLeftEdge = packagePlacement.getPlacement().getDistanceToLeftEdge();
 		resultRow[DISTANCE_TO_LEFT_EDGE_INDEX] = valueOf(distanceToLeftEdge);
 
-		final int distanceToVehicleFront = packagePlacement.getPlacement()
-		                                                   .getDistanceToVehicleFront();
+		final int distanceToVehicleFront = packagePlacement.getPlacement().getDistanceToVehicleFront();
 		resultRow[DISTANCE_TO_VEHICLE_FRONT_INDEX] = valueOf(distanceToVehicleFront);
+
 		return resultRow;
 	}
 }

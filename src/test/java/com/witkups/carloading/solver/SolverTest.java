@@ -79,7 +79,7 @@ public class SolverTest {
 
 	@Test
 	public void validateImprovingSolution() {
-		final Constraints constraints = new ConstraintsLoader().loadProperties();
+		final Constraints constraints = new ConstraintsLoader().load();
 		final Instance instance = new InstanceGenerator(constraints).prepare();
 		final Stream<Solution> solutionStream = new Solver(instance).generateBetterSolutions();
 		final List<Purpose> results = solutionStream.sequential()

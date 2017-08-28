@@ -51,7 +51,6 @@ public final class InputReader implements Reader<List<Section>> {
 	}
 
 	private String[] readInputLine() {
-		return scanner.nextLine()
-		              .split("\\s+");
+		return scanner.nextLine().split("\\s+");
 	}
 }
