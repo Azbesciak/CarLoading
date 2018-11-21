@@ -1,10 +1,10 @@
 # CarLoading
 ## Project target
-The purpose of this project is to optimize the process of loading car with given packages, fitting to the constraints.<br>
-Some of the packages can be placed on another, and (or not) another on them. Also, there is requirement that packages from previous sections need placed before farther sections.
-Access to each section cannot be disturbed in straight line by any of preceding sections.<br>
+The purpose of this project is to optimize the process of loading the car with given packages, fitting to the constraints.<br>
+Some of the packages can be placed on another, and (or not) another on them. Also,packages need to be placed keeping sections order.
+Access to each section cannot be disturbed in straight line by any of the preceding sections.<br>
 We can specify two types of data: *instance* and *solution*. Also, let's assume we have *section* -
- each starts with the number of rows, and following after data with some scheme. Each column is separated with **tabulation**, each row ended with **line separator**.
+ each starts with the number of rows, and following after data with some scheme. Each column is separated with **tabulation**, each row is ended with **line separator**.
  
 ## Input and output scheme
 Instance input has 3 sections:
@@ -28,7 +28,7 @@ So it should looks like bellow:
 
 
 Solution contains two sections.<br>
-First is built from car's length needed to load received placement of parcels, and their occupied place on the floor.<br>
+First is built from car's length required to load received placement of parcels, and their occupied place on the floor.<br>
 Second contains packages placement.
 
 Solution output scheme is:
@@ -75,7 +75,7 @@ Invokable commands: <br>
  ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------
  `gradle validate -Pinstance="<instance file path>" -Psolution="<solution file path>"` | *validates given instance and solution with constraints*
  `gradle construct`                                                                    | *creates just one solution for the given in the next step instance*
- `gradle optimize`                                                                     | *as same as above, but generates only better than preceding solutions infinity*
+ `gradle optimize`                                                                     | *same as above, but generates only better than preceding solutions infinity*
 
 *In* `construct` *and* `optimize` *you need to pass values through the console.*
 > Constraints values are placed in `constraints.properties`,<br>
